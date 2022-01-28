@@ -11,12 +11,15 @@ Analog Clock Flutter is just an android and ios app that provide analog clock an
     
 2. Install dependencies
 
-    flutter pub get
+```bash
+$ flutter pub get
+```
 
-3. Run debug mode
+4. Run debug mode
 
-    $ flutter run
-
+```bash
+$ flutter run
+```
  
 -  [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
 
@@ -27,15 +30,15 @@ Analog Clock Flutter is just an android and ios app that provide analog clock an
 Explanation of this project structure
 
  - BloC
-	Business logic component to separate logic from ui.
+	Business logic component to separate ui and logic.
  - Components
-	 Component that can use reusable.
+	 Component that can use reusable
  - Services
-	Service to set up notification.
+	Service to set up notification
  - UI
-	 Screens/pages of the app.
+	 Screen of the app
  - main.dart
-	Main file that execute when the app started.
+	Main file that execute when the app started
 
 For help getting started with Flutter, view flutter
 
