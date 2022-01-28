@@ -109,7 +109,6 @@ class _ClockState extends State<Clock> {
           ElevatedButton(
             child: Text('Set Alarm'),
             onPressed: (){
-              // TimeOfDay(18:14)
               // show time picker
               showTimePicker(context: context, initialTime: TimeOfDay.now())
                   .then((value){
@@ -124,12 +123,6 @@ class _ClockState extends State<Clock> {
               });
             },
           ),
-          ElevatedButton(
-            child: Text('Detail'),
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>DetailScreen()));
-            },
-          )
         ],
       ),
     );

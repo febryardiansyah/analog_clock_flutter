@@ -16,7 +16,6 @@ class NotificationService{
   }
 
   NotificationService._internal();
-  Timer? _timer;
 
   FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -28,8 +27,11 @@ class NotificationService{
     //IOS init setting
     final IOSInitializationSettings initializationSettingsIOS = IOSInitializationSettings(
       requestAlertPermission: false,requestBadgePermission: false,requestSoundPermission: false,
-      onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload){
-        print('IOS Payload ===> $payload',);
+      onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload)async{
+        await Navigator.push(context, MaterialPageRoute(builder: (_)=>DetailScreen(
+          hour: int.parse(payload!.split(':')[0]),
+          minutes: int.parse(payload.split(':')[1]),
+        )));
       }
     );
 
@@ -46,27 +48,24 @@ class NotificationService{
 
     //init flutter local notification
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: (String? payload){
-      final _alarmTime = TimeOfDay(hour: int.parse(payload!.split(':')[0]), minute: int.parse(payload.split(':')[1]));
       selectNotification(payload,context);
     });
   }
 
-  // method when user click notification
+  //when user click notification
   void selectNotification(String? payload,BuildContext context) async {
+    print('notification payload: $payload');
     if (payload != null) {
-      print('notification payload: $payload');
       await Navigator.push(context, MaterialPageRoute(builder: (_)=>DetailScreen(
         hour: int.parse(payload.split(':')[0]),
         minutes: int.parse(payload.split(':')[1]),
       )));
-      _timer?.cancel();
     }
   }
 
-  // method for show notification
+  //show notification
   Future<void> showNotification(TimeOfDay selectedTime)async{
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-    AndroidNotificationDetails('1', 'alarm', channelDescription: 'android alarm description',
+    AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails('1', 'alarm', channelDescription: 'android alarm description',
       importance: Importance.max,
       priority: Priority.high,
       ticker: 'Wake Up!',
@@ -78,7 +77,8 @@ class NotificationService{
     final time = tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute,);
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(1, 'Alarm', "you've set alarm at $hour:$minute", time, NotificationDetails(
-      android: androidPlatformChannelSpecifics), uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      android: androidPlatformChannelSpecifics,iOS: IOSNotificationDetails(
+    )), uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
       androidAllowWhileIdle: true,matchDateTimeComponents: DateTimeComponents.time,payload:'$hour:$minute',);
   }
 }

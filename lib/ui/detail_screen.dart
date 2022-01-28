@@ -107,9 +107,6 @@ class _BarChart extends StatelessWidget {
   );
 
   List<BarChartGroupData> get barGroups => [
-    BarChartGroupData(
-      x: 0, barRods: [BarChartRodData(y: minutes!.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])],
-      showingTooltipIndicators: [0],
-    ),
+    BarChartGroupData(x: 0, barRods: [BarChartRodData(y: minutes!.toDouble(), colors: [Colors.lightBlueAccent, Colors.greenAccent])], showingTooltipIndicators: [0],),
   ];
 }
